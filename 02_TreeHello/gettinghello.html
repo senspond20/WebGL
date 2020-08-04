@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+} */
+    </style>
+</head>
+<body>
+    <!-- <canvas id ="scene_canvas"></canvas> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script> -->
+    <script src ="https://threejs.org/build/three.min.js"></script>
+    <script>
+        let camera, scene, renderer, cube;
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        function init() {
+
+            // 공간 초기화
+            scene = new THREE.Scene();
+      
+            // 카메라(PerspectiveCamera) 초기화
+            camera = new THREE.PerspectiveCamera(
+                75,                // fov : 시야
+                window.innerWidth / window.innerWidth,    // aspect : 종횡비
+                0.1,               // near : 어디부터
+                1000               // far : 어디까지
+            );
+              
+            renderer = new THREE.WebGLRenderer({
+                // 배경을 투명하게
+                alpha: true, 
+                // 높은 해상도를 가진 텍스처가 낮은 해상도에서 나타낼 때 생기는 깨진 패턴을 최소화하는 랜더링 처리
+                antialias: true
+            });
+
+            // 사이즈 조정
+            renderer.setSize(window.innerWidth, window.innerWidth);
+
+            // Render to canvas element
+             document.body.appendChild(renderer.domElement);
+
+            // document.getElementById('scene_canvas').appendChild(renderer.domElement);
+
+            // 피사체 세팅
+
+            // 기하학적인 형태,뼈대를 담당하는 부분에 대한 정의
+            const geometry = new THREE.BoxGeometry(3, 3, 3);
+
+            // 특정한 질감,색, 반사율 등을 갖는 물체의 표며에 대한 정의
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x006fff
+            });
+
+            // 물체(mesh) = 뼈대(Geometry) + 표면(Material)
+            const mesh = new THREE.Mesh(geometry, material);
+
+            // 공산에다가 만들어진 피사체 추가
+            scene.add(mesh);
+           
+            // 카메라 위치조정
+            camera.position.z = 5;
+        }
+       
+        function onWindowResize() {
+            // Camera frustum aspect ratio
+            camera.aspect = window.innerWidth / window.innerHeight;
+            // After making changes to aspect
+            camera.updateProjectionMatrix();
+            // Reset size
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        // window.addEventListener('resize',()=>{
+        //     console.log(`${window.innerWidth}/${window.innerHeight}`);
+        //     onWindowResize();
+        // });
+        init(); 
+        renderer.render(scene, camera);
+        // animate();
+    </script>
+</body>
+
+</html>

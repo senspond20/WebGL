@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        } */
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #area{
+            display: flex;
+            /* background-color: red; */
+            width: fit-content;
+            height: fit-content;
+            padding: 0;
+            margin: 0;
+            /* margin: 50px; */
+            /* padding: 50px; */
+            box-sizing: border-box;
+            border-radius: 14px;
+            border : 1px solid blue; 
+        }
+    </style>
+</head>
+
+<body>
+    <div id ="area"></div>
+    안녕하세요
+
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script>
+        var width = 700;
+        var height = 700;
+        var renderer = new THREE.WebGLRenderer({
+            // 배경을 투명하게
+            alpha: true, 
+            antialias: true
+        });
+        renderer.setSize(width, height);
+        document.getElementById('area').appendChild(renderer.domElement);
+//        document.body.appendChild(renderer.domElement);
+
+        var scene = new THREE.Scene;
+        var cubeGeometry = new THREE.CubeGeometry(100, 100, 100);
+        var cubeMaterial = new THREE.MeshLambertMaterial({
+            color: 0x0000ff
+        });
+        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+        cube.rotation.y = Math.PI * 45 / 180;
+
+        scene.add(cube);
+        var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+
+        camera.position.y = 160;
+        camera.position.z = 400;
+
+        scene.add(camera);
+
+        var skyboxGeometry = new THREE.CubeGeometry(0000, 10000, 10000);
+        var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
+        var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+        var pointLight = new THREE.PointLight(0xffffff);
+        pointLight.position.set(0, 300, 200);
+        
+        scene.add(pointLight);
+        scene.add(skybox);
+        camera.lookAt(cube.position);
+       
+        var clock = new THREE.Clock;
+ 
+        function render() {
+            renderer.render(scene, camera);
+            cube.rotation.y -= clock.getDelta();
+            requestAnimationFrame(render);
+        }
+
+        function getDisplayInfo() {
+
+            var size = {
+            width: window.innerWidth || document.body.clientWidth,
+            height: window.innerHeight || document.body.clientHeight
+            }
+            return size;
+        }
+
+
+        function onWindowResize() {
+             
+            console.log(`${window.innerWidth}/${window.innerHeight}`);
+
+            let r_width = (window.innerWidth <= width) ? window.innerWidth: width;
+            let r_height = (window.innerHeight <= height) ? window.innerHeight : height;
+
+            camera.aspect =  r_width / r_height;
+            camera.updateProjectionMatrix();
+            // Reset size
+            renderer.setSize( r_width, r_height);
+        }
+
+         window.addEventListener('resize', onWindowResize, false);
+
+        // window.addEventListener('resize',()=>{
+
+
+        //     let size = getDisplayInfo();
+        //     console.log(window.innerWidth + "/" + window.innerHeight)
+        //     console.log(size.width + "/" + size.height)
+        // })
+     // renderer.render(scene, camera);
+        render();
+    </script>
+</body>
+
+</html>
