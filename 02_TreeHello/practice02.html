@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script>
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        var renderer = new THREE.WebGLRenderer({
+            // 배경을 투명하게
+            // alpha: true, 
+            antialias: true
+        });
+        renderer.setSize(width, height);
+        document.body.appendChild(renderer.domElement);
+
+        var scene = new THREE.Scene(); 
+
+            
+
+        // scene.background = new THREE.CubeTextureLoader()
+        // .setPath( 'textures/' )
+        // .load( [
+        //     'px.png',
+        //     'nx.png',
+        //     'py.png',
+        //     'ny.png',
+        //     'pz.png',
+        //     'nz.png'
+        // ] );
+        
+        var geometry = new THREE.Geometry();
+
+        geometry.vertices.push(
+            new THREE.Vector3( -10,  10, 0 ),
+            new THREE.Vector3( -10, -10, 0 ),
+            new THREE.Vector3(  10, -10, 0 ),
+        );
+        //위 코드는 x-y 평면에 세 점 (x= -10, y=10, x=-10, y=-10, x=10, y=-10)을 찍은 후 
+        //Geometry의 첫 번째, 두 번째, 세 번째 점을 잇는 면을 추가하는 코드이다.
+
+        geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+        geometry.computeBoundingSphere();
+
+        const RADIUS = 40;
+        var geometry = new THREE.OctahedronGeometry(RADIUS, 0);
+        const material = new THREE.MeshBasicMaterial({ color: '#ff3030' });
+        // const material = new THREE.MeshBasicMaterial({ map: texture });
+        // var cube = new THREE.Mesh(geometry, cubeMaterial);
+
+        // var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+        const mesh  = new THREE.Mesh(geometry, material)
+        
+        scene.add(mesh);
+        mesh.position.z = -RADIUS * 10;
+        var camera = new THREE.PerspectiveCamera(20, width / height, 0.1, 10000);
+
+        // camera.position.y = 160;
+        // camera.position.z = 400;
+
+        // camera.lookAt(cube.position);
+        scene.add(camera);
+        renderer.render(scene, camera);
+       
+
+    </script>
+
+</body>
+</html>

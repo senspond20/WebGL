@@ -38,7 +38,7 @@
               
             renderer = new THREE.WebGLRenderer({
                 // 배경을 투명하게
-                alpha: true, 
+                alpha: false, 
                 // 높은 해상도를 가진 텍스처가 낮은 해상도에서 나타낼 때 생기는 깨진 패턴을 최소화하는 랜더링 처리
                 antialias: true
             });
@@ -69,6 +69,7 @@
            
             // 카메라 위치조정
             camera.position.z = 5;
+            // camera.lookAt(mesh.position);
         }
        
         function onWindowResize() {

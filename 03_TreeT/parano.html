@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: fit-content;
+            height: fit-content;
+            /* margin : 0 auto; */
+            display: flex;
+        }
+        .items {
+            width: 40px;
+            height: 40px;
+            border: 1px solid red;
+            transition: 2s;
+            
+        }
+    </style>
+</head>
+<body>
+    <button id ="unfold">펼치기</button>
+    <div class="container"></div>
+
+    <script type ="text/javascript">
+        var container = document.querySelector('.container');
+        for(var i = 0 ; i < 6 ; i ++ ){
+            var item = document.createElement('div');
+            item.setAttribute("class","items")
+            item.setAttribute("style","transform: translateX(-40px)")
+            // item.style.position ="absolute";
+            // item.style.transform = translateX(-40px);
+    
+            item.innerText = "item" + i;
+            container.appendChild(item);
+        }
+        var unfoldBtn = document.getElementById('unfold');
+
+        unfoldBtn.addEventListener('click',()=>{
+        var items = document.getElementsByClassName('items');
+            console.log(items);  
+            for(var i = 0 ; i < 6 ; i ++ ){
+                console.log(items[i]);
+                console.log(items[i].style.position);
+                // items[i].style.position = "relative";
+                items[i].setAttribute("style","transform: translateX(40px)")
+                console.log(items[i].style.position);
+            }
+        });
+    </script>
+</body>
+</html>
