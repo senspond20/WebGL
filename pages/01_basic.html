@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="/libs/three.min.js"></script>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            #3dArea {
+                top: 0;
+                left: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>네모 박스 만들기</h1>
+        <div id="3dArea"></div>
+        <script>
+            (function () {
+                let renderer, scene, camera;
+
+                function init(width, heigth) {
+
+                    // 1. 
+                    renderer = new THREE.WebGLRenderer({
+                        alpha: false,
+                        antialias: true
+                    });
+                    renderer.setSize(width, heigth);
+                    document.getElementById('3dArea')
+                        .appendChild(renderer.domElement);
+
+                    // 2. scence / mesh
+                    scene = new THREE.Scene();
+                    var geometry = new THREE.BoxGeometry(3, 3, 3);
+                    var material = new THREE.MeshBasicMaterial({
+                        color: '#ff3030'
+                    });
+                    var mesh = new THREE.Mesh(geometry, material);
+                    scene.add(mesh);
+
+                    // 3. camera
+                    camera = new THREE.PerspectiveCamera(75, width / heigth, 0.1, 1000);
+
+                    // z 축으로 카메라를 조정 
+                    camera.position.z = 20;
+              
+                }
+
+                function animate() {
+                    renderer.render(scene, camera);
+                }
+
+                function showlog() {
+                    console.log(renderer);
+                    console.log(scene);
+                    console.log(camera);
+                }
+
+                init(window.innerWidth, window.innerHeight);
+                animate();
+                showlog();
+            })();
+        </script>
+    </body>
+
+    </html>
+</body>
+
+</html>
