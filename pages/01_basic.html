@@ -21,7 +21,7 @@
                 margin: 0;
                 padding: 0;
             }
-            #3dArea {
+            #dArea {
                 top: 0;
                 left: 0;
             }
@@ -30,23 +30,22 @@
 
     <body>
         <h1>네모 박스 만들기</h1>
-        <div id="3dArea"></div>
+        <div id="dArea"></div>
         <script>
             (function () {
                 let renderer, scene, camera;
 
                 function init(width, heigth) {
-
                     // 1. 
                     renderer = new THREE.WebGLRenderer({
-                        alpha: false,
+                        alpha: false, // 기본값 false 배경이 검은색으로
                         antialias: true
                     });
                     renderer.setSize(width, heigth);
-                    document.getElementById('3dArea')
+                    document.getElementById('dArea')
                         .appendChild(renderer.domElement);
 
-                    // 2. scence / mesh
+                    // 2. scene / mesh
                     scene = new THREE.Scene();
                     var geometry = new THREE.BoxGeometry(3, 3, 3);
                     var material = new THREE.MeshBasicMaterial({

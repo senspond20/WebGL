@@ -16,11 +16,32 @@
 ### Three.js에서 사용되는 개념들
 
 + ### 3D (X, Y, Z)
-    + X축,y축,z축 
+    + X축,y축,z축 좌표공간에 대한 개념
+
+    vector . metrix
+
+```js
+function Matrix4() {
+	this.elements = [
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1
+	];
+}
+
+function Vector3( x = 0, y = 0, z = 0 ) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+}
+```
 
 + ### Scene 
 
 + ### Renderer
+    + antialias : true/false
+        + 안티엘리어싱 - 고해상도의 텍스쳐가 저해상도에서 랜더링이 될때 깨짐현상이 발생하는것을 처리하는 그래픽 기술
 
 + ### Camera
     + Perspective 카메라 (원근 카메라)
@@ -54,4 +75,13 @@
 
 + ### Mesh
 
+
+### 코드 경량화
+``` js
+uglifyjs test.js -o test.js -m
+```
+
++ 
+
+[https://davidlyons.dev/threejs-intro/]
 
