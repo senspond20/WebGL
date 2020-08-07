@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .items {
+            width: 80px;
+            height: 80px;
+            background: green;
+            position: absolute;
+            border-radius: 12px;
+            transition: 1s;
+            transform-style: preserve-3d;
+    
+        }
+        .items:nth-child(5){
+            background: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <button id="testBtn1">접기</button>
+    <button id="testBtn2">펼치기</button>
+    <script>
+        function Matrix(perentElem, childname, x = 0, y = 0, z = 0) {
+            if (!perentElem || !childname) {
+                return;
+            }
+            var dom = document.createElement('div');
+            dom.setAttribute('class', childname);
+            perentElem.appendChild(dom);
+
+            this.dom = dom;
+            this.elements = [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                x, y, z, 1
+            ];
+        }
+        Matrix.prototype.setVec = function (x = 1, y = 1, z = 1) {
+            this.elements[0] = x;
+            this.elements[5] = y;
+            this.elements[10] = z;
+        }
+        Matrix.prototype.setPos = function (x = 0, y = 0, z = 0) {
+            this.elements[12] = x;
+            this.elements[13] = y;
+            this.elements[14] = z;
+        }
+        Matrix.prototype.update = function () {
+            this.dom.style.transform = "matrix3d(" + this.elements + ")";
+        }
+
+
+        var perentElem = document.querySelector('#container');
+        var objects = []
+        for (var i = 0; i < 9; i++) {
+            objects.push(new Matrix(perentElem, "items"));
+        }
+        document.querySelector('#testBtn1')
+            .addEventListener('click', (e) => {
+                e.preventDefault();
+                for (let i = 0; i < 9; i++) {
+                    objects[i].setVec(1, 1, 1);
+                    objects[i].setPos(0, 0, 0);
+                    objects[i].update();
+                }
+            })
+
+     
+        document.querySelector('#testBtn2')
+            .addEventListener('click', (e) => {
+                e.preventDefault();
+                for (let i = 0; i < 9; i++) {
+                    objects[i].setVec(-0.5, 0.5, 1);
+                    
+                    // objects[i].setPos((i % 3) * 100, Math.floor(i / 3) * 100, 0);
+                    objects[i].setPos((i % 3) * 100 - 100, Math.floor(i / 3) * 100 - 100, 0);
+                    objects[i].update();
+                }
+            })
+    </script>
+</body>
+
+</html>

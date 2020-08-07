@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #dArea {
+            width: 500px;
+            height: 500px;
+            background: yellow;
+            /* border: 1px solid black; */
+        }
+
+        .items {
+            width: 80px;
+            height: 80px;
+            background: red;
+        }
+
+        .items:hover {
+            background: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>네모 박스 만들기</h1>
+    <div id="dArea">
+        <div>
+            안녕하세ㅛ
+        </div>
+
+    </div>
+
+    <script src="../libs/three.min.js"></script>
+    <script src="../libs/CSS3DRenderer.min.js"></script>
+    <script type="text/javascript">
+        // <script type="module">
+        // import {CSS3DRenderer,CSS3DObject} from '../libs/CSS3DRenderer.js';
+        (function () {
+            let renderer, scene, camera;
+            var objects = [];
+            var targets = {
+                table: [],
+                grid: []
+            };
+            var table = [
+                "몸만들기", "안녕하세요 반갑습니다. 어서와요,, 안녕하세요 아아아아아아이니인리", "1", 4, 2,
+                "체구", "안녕", "2", 4, 1,
+                "구위", "안녕", "3", 4, 2,
+                "멘탈", "안녕", "4", 5, 2,
+                "8구단 프래프트 순위", "안녕", "5", 5, 2,
+                "스피드", "안녕", "6", 5, 2,
+                "인강성", "안녕", "7", 5, 2,
+                "운", "안녕", "8", 5, 2,
+                "변화구", "안녕", "9", 5, 2,
+            ];
+
+            function init(width, heigth) {
+                // 2. scene / mesh
+                scene = new THREE.Scene();
+                createTable();
+
+                // 1. 
+                renderer = new THREE.CSS3DRenderer();
+                renderer.setSize(width, heigth);
+
+                document.getElementById('dArea')
+                        .appendChild(renderer.domElement);
+
+              
+             
+                // 3. camera
+                camera = new THREE.PerspectiveCamera(30, width / heigth, 0.1, 100);
+
+                // z 축으로 카메라를 조정 
+                camera.position.z = 1000;
+
+            }
+
+            function transform( targets, duration ) {
+				TWEEN.removeAll();
+				for ( var i = 0; i < objects.length; i ++ ) {
+					var object = objects[ i ];
+					var target = targets[ i ];
+					new TWEEN.Tween( object.position )
+						.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+						.easing( TWEEN.Easing.Exponential.InOut )
+						.start();
+					new TWEEN.Tween( object.rotation )
+						.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+						.easing( TWEEN.Easing.Exponential.InOut )
+						.start();
+				}
+				new TWEEN.Tween( this )
+					.to( {}, duration * 2 )
+					.onUpdate( render )
+					.start();
+			}
+            function animate() {
+                // transform( targets.grid, 0 );
+                renderer.render(scene, camera);
+            }
+
+            function showlog() {
+                console.log(renderer);
+                console.log(scene);
+                console.log(camera);
+            }
+
+            function createTable(){
+                for (var i = 0; i < table.length; i += 5) {
+                    var element = document.createElement('div');
+                    element.className = 'items';
+                    // element.style.backgroundColor = 'rgba(0,45,47,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+
+                    var number = document.createElement('div');
+                    number.className = 'number';
+                    // number.textContent = ( i / 5 ) + 1;
+                    number.innerHTML = table[i + 2];
+                    element.appendChild(number);
+
+                    var symbol = document.createElement('div');
+                    symbol.className = 'symbol';
+                    symbol.textContent = table[i];
+                    element.appendChild(symbol);
+
+                    // var details = document.createElement( 'div' );
+                    // details.className = 'details';
+                    // details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
+                    // element.appendChild( details );
+
+                    var object = new CSS3DObject(element);
+                    object.position.x = Math.random() * 4000 - 1000;
+                    object.position.y = Math.random() * 4000 - 1000;
+                    object.position.z = Math.random() * 4000 - 1000;
+                    scene.add(object);
+
+                    objects.push(object);
+
+                    var object = new THREE.Object3D();
+                    object.position.x = (table[i + 1] * 140) - 1330;
+                    object.position.y = -(table[i + 1] * 180) + 990;
+                    targets.table.push(object);
+                }
+
+                // grid
+                for (var i = 0; i < objects.length; i++) {
+                    var wid = 1000;
+                    var hid = 1000;
+                    var object = new THREE.Object3D();
+                    object.position.x = ((i % 3) * wid) - hid;
+                    object.position.y = (-(Math.floor(i / 3) % 3) * wid) + hid;
+                    object.position.z = (Math.floor(i / 9)) * 1000 - 5000;
+                    targets.grid.push(object);
+                }
+            }
+            init(500, 500);
+            animate();
+            showlog();
+        })();
+    </script>
+
+</body>
+
+</html>
+</body>
+
+</html>

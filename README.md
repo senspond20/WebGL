@@ -75,13 +75,18 @@ function Vector3( x = 0, y = 0, z = 0 ) {
 
 + ### Mesh
 
+[https://davidlyons.dev/threejs-intro/]
+
 
 ### 코드 경량화
+
++ uglifyjs 사용.
+
 ``` js
-uglifyjs test.js -o test.js -m
+uglifyjs test.js -o test.min.js -m
 ```
++ tree.js 를 사용해보다가 
+자바스크립트를 최소화하고 CSS로 3D 구현해보는쪽으로 생각해봄
 
-+ 
 
-[https://davidlyons.dev/threejs-intro/]
 

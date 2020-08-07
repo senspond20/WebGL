@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            #dArea{
+                width: 500px;
+                height: 500px;
+                background: yellow;
+                /* border: 1px solid black; */
+            }
+            .items{
+                width: 80px;
+                height: 80px;
+                background: red;
+                position: absolute;
+         
+            }
+            .items:hover{
+                background: green;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>네모 박스 만들기</h1>
+        <div id="dArea">
+            <div>
+                안녕하세ㅛ
+            </div>
+
+        </div>
+
+        <script src="../libs/three.min.js"></script>
+        <script src="../libs/CSS3DRenderer.js"></script>
+        <script type ="text/javascript">
+        // <script type="module">
+            // import {CSS3DRenderer,CSS3DObject} from '../libs/CSS3DRenderer.js';
+            (function () {
+                let renderer, scene, camera;
+
+                function init(width, heigth) {
+                    // 1. 
+                    renderer = new THREE.CSS3DRenderer();
+                    renderer.setSize(width, heigth);
+                    document.getElementById('dArea')
+                        .appendChild(renderer.domElement);
+
+                    // 2. scene / mesh
+                    scene = new THREE.Scene();
+                    
+                    for(let i = 0; i < 9; i ++){
+                        var element = document.createElement( 'div' );
+                        element.className = 'items';
+                        
+                        var object = new THREE.CSS3DObject( element );
+                        object.position.x = (i % 3) *100 ;
+                        object.position.y = -Math.floor(i/3)*100;
+                        // object.position.z = Math.random();
+                        scene.add(object);
+
+                    }
+
+                    // 3. camera
+                    camera = new THREE.PerspectiveCamera(40, width / heigth, 0.1, 100);
+
+                    // z 축으로 카메라를 조정 
+                    camera.position.z = 1000;
+              
+                }
+          
+                function animate() {
+                    renderer.render(scene, camera);
+                }
+
+                function showlog() {
+                    console.log(renderer);
+                    console.log(scene);
+                    console.log(camera);
+                }
+
+                init(500, 500);
+                animate();
+                showlog();
+            })();
+        </script>
+
+    </body>
+
+    </html>
+</body>
+
+</html>

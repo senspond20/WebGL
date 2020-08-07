@@ -4,8 +4,8 @@
 THREE.CSS3DObject = function ( element ) {
 	THREE.Object3D.call( this );
 	this.element = element || document.createElement( 'div' );
-	this.element.style.position = 'absolute';
-	this.element.style.pointerEvents = 'auto';
+	// this.element.style.position = 'absolute';
+	// this.element.style.pointerEvents = 'auto';
 
 	this.addEventListener( 'removed', function () {
 		this.traverse( function ( object ) {
@@ -119,12 +119,15 @@ THREE.CSS3DRenderer = function () {
 		')';
 
 		if ( isIE ) {
-			return 'translate(-50%,-50%)' +
-				'translate(' + _widthHalf + 'px,' + _heightHalf + 'px)' +
-				cameraCSSMatrix +
-				matrix3d;
+			return cameraCSSMatrix +
+			matrix3d;
+			// return 'translate(-50%,-50%)' +
+			// 	'translate(' + _widthHalf + 'px,' + _heightHalf + 'px)' +
+			// 	cameraCSSMatrix +
+			// 	matrix3d;
 		}
-		return 'translate(-50%,-50%)' + matrix3d;
+		// return 'translate(-50%,-50%)' + matrix3d;
+		return matrix3d;
 	}
 
 	function renderObject( object, scene, camera, cameraCSSMatrix ) {
